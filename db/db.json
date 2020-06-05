@@ -1,0 +1,120 @@
+{
+  "managers": [
+    {
+      "id": "SV9QlNAvWdMF2RvQRWw6w",
+      "email": "hiddink@cfc.com",
+      "name": "Guus Hiddink"
+    },
+    {
+      "id": "IZilWGEdQMb7U7A9b9B6a",
+      "email": "lampard@cfc.com",
+      "name": "Frank Lampard"
+    },
+    {
+      "id": "KpaKdC6V__u5UEBzlDeLs",
+      "email": "mourinho@cfc.com",
+      "name": "Jose Mourinho"
+    },
+    {
+      "id": "7G_AhpKRONTEGDN1yEdDW",
+      "email": "conte@cfc.com",
+      "name": "Antonio Conte"
+    },
+    {
+      "id": "jkNnBTPSMJbuuBGtb8A9b",
+      "email": "sarri@cfc.com",
+      "name": "Maurizio Sarri"
+    },
+    {
+      "id": "k4o7vnLAFytI_fBJS0UeG",
+      "email": "grant@cfc.com",
+      "name": "Avram Grant"
+    },
+    {
+      "id": "_41W_ksYfaRmhWqDM_fUG",
+      "email": "ancelotti@cfc.com",
+      "name": "Carlo Ancelotti"
+    },
+    {
+      "id": "9xXHbs8IlnhA0tadQn1y8",
+      "email": "benitez@cfc.com",
+      "name": "Rafa Benitez"
+    },
+    {
+      "id": "hys6OiOHWxe3imUFisaYj",
+      "email": "vialli@cfc.com",
+      "name": "Gianluca Vialli"
+    },
+    {
+      "id": "L4wOOahom4eUVEf94AP4K",
+      "email": "scolari@cfc.com",
+      "name": "Luiz Felipe Scolari"
+    }
+  ],
+  "players": [
+    {
+      "id": "121414",
+      "email": "Mount@cfc.com",
+      "name": "Mason Mount",
+      "position": "MIDFIELDER",
+      "reportsTo": "IZilWGEdQMb7U7A9b9B6a",
+      "debut": 2019
+    },
+    {
+      "id": "23958235",
+      "email": "tomori@cfc.com",
+      "name": "Fikayo Tomori",
+      "position": "DEFENDER",
+      "reportsTo": "IZilWGEdQMb7U7A9b9B6a",
+      "debut": 2019
+    },
+    {
+      "id": "wtyJIItEzN2-YKoO0XIdq",
+      "email": "kovacic@cfc.com",
+      "name": "Mateo Kovacic",
+      "position": "MIDFIELDER",
+      "debut": 2018,
+      "reportsTo": "IZilWGEdQMb7U7A9b9B6a"
+    },
+    {
+      "id": "11rjEaDPnQDv2l_LB-cGi",
+      "email": "jorginho@cfc.com",
+      "name": "Jorginho",
+      "position": "MIDFIELDER",
+      "debut": 2018,
+      "reportsTo": "jkNnBTPSMJbuuBGtb8A9b"
+    },
+    {
+      "id": "E0fQfZq3skuuvPrw-AH_s",
+      "email": "drogba@cfc.com",
+      "name": "Didier Drogba",
+      "position": "ATTACKER",
+      "debut": 2004,
+      "reportsTo": "KpaKdC6V__u5UEBzlDeLs"
+    },
+    {
+      "id": "U1W6riMJ0QIxiIyMSE3xZ",
+      "email": "costa@cfc.com",
+      "name": "Diego Costa",
+      "position": "ATTACKER",
+      "debut": 2014,
+      "reportsTo": "KpaKdC6V__u5UEBzlDeLs"
+    },
+    {
+      "id": "8V_yiJFKhiNbLWQX6CxkY",
+      "email": "terry@cfc.com",
+      "name": "John Terry",
+      "position": "DEFENDER",
+      "debut": 1998,
+      "reportsTo": "hys6OiOHWxe3imUFisaYj"
+    },
+    {
+      "id": "IZilWGEdQMb7U7A9b9B6a",
+      "email": "lampard@cfc.com",
+      "name": "Frank Lampard",
+      "position": "MIDFIELDER",
+      "debut": 2001,
+      "reportsTo": "L4wOOahom4eUVEf94AP4K"
+    }
+  ]
+}
