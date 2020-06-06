@@ -11,6 +11,7 @@ const server = new ApolloServer({
       models,
       db
     }
+  }
 });
 
 server.listen(8000).then(({ url }) => {
