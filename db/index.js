@@ -7,6 +7,8 @@ const db = low(adapter);
 const createManagerModel = require("./manager");
 const createPlayerModel = require("./player");
 
+db.defaults({ managers: [], players: [] });
+
 module.exports = {
   models: {
     Managers: createManagerModel(db),
