@@ -4,17 +4,19 @@
   "description": "A graphql api to query for team members",
   "main": "index.js",
   "scripts": {
-    "start": "node ./api/server.js"
+    "start": "nodemon ./api/server.js --ignore 'db/db.json'"
   },
   "author": "Harsh Khandelwal",
   "license": "ISC",
   "dependencies": {
     "apollo-server": "^2.14.1",
     "graphql": "^15.0.0",
+    "jsonwebtoken": "^8.5.1",
     "lowdb": "^1.0.0",
     "nanoid": "^2.1.1"
   },
   "devDependencies": {
+    "nodemon": "^2.0.4",
     "prettier": "^2.0.5"
   }
 }

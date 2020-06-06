@@ -10,6 +10,11 @@ const typedefs = gql`
 
   union Member = Manager | Player
 
+  enum Role {
+    ADMIN
+    MEMBER
+  }
+
   type Manager {
     id: ID!
     email: String!
@@ -24,6 +29,17 @@ const typedefs = gql`
     position: PositionType!
     debut: Int!
     debutManager: Manager
+  }
+
+  type User {
+    id: ID!
+    email: String!
+    role: Role!
+  }
+
+  type AuthUser {
+    token: String!
+    user: User!
   }
 
   input ManagerInput {
@@ -65,7 +81,19 @@ const typedefs = gql`
     debutManager: String
   }
 
+  input SignupInput {
+    email: String!
+    password: String!
+    role: Role!
+  }
+
+  input SigninInput {
+    email: String!
+    password: String!
+  }
+
   type Query {
+    me: User!
     managers: [Manager]!
     manager(id: ID!): Manager
     players(input: PlayerInput): [Player]!
@@ -82,6 +110,9 @@ const typedefs = gql`
 
     deletePlayer(id: ID!): ID!
     deleteManager(id: ID!): ID!
+
+    signup(input: SignupInput!): AuthUser!
+    signin(input: SigninInput!): AuthUser!
   }
 
   type Subscription {
