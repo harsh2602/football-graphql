@@ -17,7 +17,7 @@ module.exports = {
     search(_, { name }, { models }) {
       const manager = models.Managers.findOne({ name });
       const player = models.Players.findOne({ name });
-      return manager && player ? {...manager, ...player} : manager || player;
+      return manager && player ? { ...manager, ...player } : manager || player;
     },
   },
   Mutation: {
@@ -46,6 +46,12 @@ module.exports = {
     },
 
     updatePlayer(_, { input }, { models }) {
+      const { debutManager } = input;
+      if (debutManager) {
+        const { id } = models.Managers.findOne({ name: debutManager });
+        delete input.debutManager;
+        input.reportsTo = id;
+      }
       return models.Players.update(input);
     },
     deleteManager(_, { id }, { models }) {
