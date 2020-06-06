@@ -46,7 +46,7 @@ const typedefs = gql`
     email: String!
     name: String!
     position: PositionType!
-    debut: Int!
+    debut: Int
     debutManager: String! # Use the name of the manager as input
   }
 
@@ -82,6 +82,10 @@ const typedefs = gql`
 
     deletePlayer(id: ID!): ID!
     deleteManager(id: ID!): ID!
+  }
+
+  type Subscription {
+    newSigning: Player!
   }
 `;
 
