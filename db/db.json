@@ -1,4 +1,20 @@
 {
+  "users": [
+    {
+      "id": "lUEGQliLf2DhghhU6HZGp",
+      "email": "harsh2602@gmail.com",
+      "password": "harsh",
+      "role": "ADMIN",
+      "createdAt": 1591444345326
+    },
+    {
+      "id": "XRtvsFTeVRyTP2qdMBdnw",
+      "email": "hakhande@visa.com",
+      "password": "Visa007",
+      "role": "MEMBER",
+      "createdAt": 1591444724912
+    }
+  ],
   "managers": [
     {
       "id": "SV9QlNAvWdMF2RvQRWw6w",
@@ -49,25 +65,14 @@
       "id": "L4wOOahom4eUVEf94AP4K",
       "email": "scolari@cfc.com",
       "name": "Luiz Felipe Scolari"
+    },
+    {
+      "id": "q-rAd2l3uFjE-onoL7O1T",
+      "email": "villas@cfc.com",
+      "name": "Andre Villas Boas"
     }
   ],
   "players": [
-    {
-      "id": "121414",
-      "email": "Mount@cfc.com",
-      "name": "Mason Mount",
-      "position": "MIDFIELDER",
-      "reportsTo": "IZilWGEdQMb7U7A9b9B6a",
-      "debut": 2019
-    },
-    {
-      "id": "23958235",
-      "email": "tomori@cfc.com",
-      "name": "Fikayo Tomori",
-      "position": "DEFENDER",
-      "reportsTo": "IZilWGEdQMb7U7A9b9B6a",
-      "debut": 2019
-    },
     {
       "id": "wtyJIItEzN2-YKoO0XIdq",
       "email": "kovacic@cfc.com",
@@ -139,6 +144,46 @@
       "position": "MIDFIELDER",
       "debut": 2020,
       "reportsTo": "IZilWGEdQMb7U7A9b9B6a"
+    },
+    {
+      "id": "jzEFw9E0DjEBO79MP6z35",
+      "email": "cech@cfc.com",
+      "name": "Petr Cech",
+      "position": "GOALKEEPER",
+      "debut": 2020,
+      "reportsTo": "KpaKdC6V__u5UEBzlDeLs"
+    },
+    {
+      "id": "ZhUKfb1r0QX6_NOSa8v7F",
+      "email": "barkley@cfc.com",
+      "name": "Ross Barkley",
+      "position": "MIDFIELDER",
+      "debut": 2017,
+      "reportsTo": "7G_AhpKRONTEGDN1yEdDW"
+    },
+    {
+      "id": "g9-ZfxyNswbsW2HL9Ejng",
+      "email": "mount@cfc.com",
+      "name": "Mason Mount",
+      "position": "MIDFIELDER",
+      "debut": 2019,
+      "reportsTo": "IZilWGEdQMb7U7A9b9B6a"
+    },
+    {
+      "id": "PZHHTE-lBUmWd9o3StSQd",
+      "email": "tomori@cfc.com",
+      "name": "Fikayo Tomori",
+      "position": "DEFENDER",
+      "debut": 2019,
+      "reportsTo": "IZilWGEdQMb7U7A9b9B6a"
+    },
+    {
+      "id": "0T-UXgk__kHGNG0RTQ4gx",
+      "email": "kante@cfc.com",
+      "name": "N'Golo Kante",
+      "position": "DEFENDER",
+      "debut": 2016,
+      "reportsTo": "7G_AhpKRONTEGDN1yEdDW"
     }
   ]
 }

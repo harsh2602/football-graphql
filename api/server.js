@@ -1,18 +1,30 @@
-const { ApolloServer, PubSub, ApolloError } = require("apollo-server");
+const { ApolloServer, AuthenticationError } = require("apollo-server");
 const typeDefs = require("./schema");
 const resolvers = require("./resolvers");
 const { models, db } = require("../db");
+const { createToken, getUserFromToken } = require("./auth");
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context({ connection }) {
+  context({ req, connection }) {
     const context = { models, db };
-    return connection ? { ...context, ...connection.context } : context;
+    if (connection) return { ...context, ...connection.context };
+
+    const token = req.headers.authorization;
+    const user = getUserFromToken(token);
+    return { ...context, user, createToken };
   },
   subscriptions: {
-    onConnect() {},
-    onDisconnect() {},
+    onConnect(params) {
+      const token = params.authorization;
+      const user = getUserFromToken(token);
+
+      if (!user) {
+        throw new AuthenticationError("Not Authenticated to subscribe");
+      }
+      return { user };
+    },
   },
 });
 
