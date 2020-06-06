@@ -83,10 +83,6 @@ const typedefs = gql`
     deletePlayer(id: ID!): ID!
     deleteManager(id: ID!): ID!
   }
-
-  type Subscription {
-    newSigning: Player!
-  }
 `;
 
 module.exports = typedefs;

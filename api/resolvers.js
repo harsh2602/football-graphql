@@ -1,7 +1,4 @@
-const { PubSub, UserInputError } = require("apollo-server");
-
-const NEW_SIGNING = "NEW_SIGNING";
-const pubSub = new PubSub();
+const { UserInputError } = require("apollo-server");
 
 module.exports = {
   Query: {
@@ -48,7 +45,6 @@ module.exports = {
       input.reportsTo = id;
 
       const player = models.Players.create({ ...input });
-      pubSub.publish(NEW_SIGNING, { newSigning: player });
       return player;
     },
 
@@ -71,11 +67,6 @@ module.exports = {
 
     deletePlayer(_, { id }, { models }) {
       return models.Players.delete({ id });
-    },
-  },
-  Subscription: {
-    newSigning: {
-      subscribe: () => pubSub.asyncIterator(NEW_SIGNING),
     },
   },
   Manager: {
