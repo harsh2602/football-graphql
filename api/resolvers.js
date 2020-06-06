@@ -1,4 +1,7 @@
-const { UserInputError } = require("apollo-server");
+const { PubSub, UserInputError } = require("apollo-server");
+
+const NEW_SIGNING = "NEW_SIGNING";
+const pubSub = new PubSub();
 
 module.exports = {
   Query: {
@@ -29,16 +32,24 @@ module.exports = {
     addPlayer(_, { input }, { models }) {
       if (models.Players.findOne({ name: input.name }))
         throw new UserInputError("Player could not be created");
-      let { debutManager } = input;
+      let { debutManager, debut } = input;
       const { id } = models.Managers.findOne({ name: debutManager }) || {};
       if (id === undefined) {
         throw new UserInputError(
           "We could not find the right information to set this player up. Please check and try again."
         );
       }
+
+      if (!debut) {
+        input.debut = new Date().getFullYear();
+      }
+
       delete input.debutManager;
       input.reportsTo = id;
-      return models.Players.create({ ...input });
+
+      const player = models.Players.create({ ...input });
+      pubSub.publish(NEW_SIGNING, { newSigning: player });
+      return player;
     },
 
     updateManager(_, { input }, { models }) {
@@ -60,6 +71,11 @@ module.exports = {
 
     deletePlayer(_, { id }, { models }) {
       return models.Players.delete({ id });
+    },
+  },
+  Subscription: {
+    newSigning: {
+      subscribe: () => pubSub.asyncIterator(NEW_SIGNING),
     },
   },
   Manager: {

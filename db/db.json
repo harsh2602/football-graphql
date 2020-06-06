@@ -115,6 +115,30 @@
       "position": "MIDFIELDER",
       "debut": 2001,
       "reportsTo": "hys6OiOHWxe3imUFisaYj"
+    },
+    {
+      "id": "FjyvwdexTELXWxeGOAhBn",
+      "email": "ziyech@cfc.com",
+      "name": "Hakim Ziyech",
+      "position": "MIDFIELDER",
+      "debut": 2020,
+      "reportsTo": "IZilWGEdQMb7U7A9b9B6a"
+    },
+    {
+      "id": "69VWT1paQzRGbwo_IdE-s",
+      "email": "broja@cfc.com",
+      "name": "Armando Broja",
+      "position": "MIDFIELDER",
+      "debut": 2020,
+      "reportsTo": "IZilWGEdQMb7U7A9b9B6a"
+    },
+    {
+      "id": "RnVM-B5ObpdQVaWc2Ysw5",
+      "email": "gilmour@cfc.com",
+      "name": "Billy Gilmour",
+      "position": "MIDFIELDER",
+      "debut": 2020,
+      "reportsTo": "IZilWGEdQMb7U7A9b9B6a"
     }
   ]
 }

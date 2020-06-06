@@ -1,4 +1,4 @@
-const { ApolloServer } = require("apollo-server");
+const { ApolloServer, PubSub, ApolloError } = require("apollo-server");
 const typeDefs = require("./schema");
 const resolvers = require("./resolvers");
 const { models, db } = require("../db");
@@ -6,11 +6,14 @@ const { models, db } = require("../db");
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context() {
-    return {
-      models,
-      db,
-    };
+  context({ connection }) {
+    console.log("Connection:", connection);
+    const context = { models, db };
+    return connection ? { ...context, ...connection.context } : context;
+  },
+  subscriptions: {
+    onConnect() {},
+    onDisconnect() {},
   },
 });
 
