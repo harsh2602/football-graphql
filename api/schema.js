@@ -103,6 +103,9 @@ const typedefs = gql`
 
   type Mutation {
     addManager(input: NewManagerInput!): Manager!
+    """
+    Pass the manager name for debutManager
+    """
     addPlayer(input: NewPlayerInput!): Player!
 
     updateManager(input: UpdateManagerInput!): Manager!
