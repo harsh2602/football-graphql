@@ -1,6 +1,8 @@
 const { gql } = require("apollo-server");
 
 const typedefs = gql`
+  directive @formatDate(format: String = "dd MMM yyyy") on FIELD_DEFINITION
+
   enum PositionType {
     GOALKEEPER
     ATTACKER
@@ -35,6 +37,7 @@ const typedefs = gql`
     id: ID!
     email: String!
     role: Role!
+    createdAt: String @formatDate
   }
 
   type AuthUser {
