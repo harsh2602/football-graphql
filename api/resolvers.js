@@ -11,9 +11,9 @@ const ADMIN = "ADMIN";
 
 module.exports = {
   Query: {
-    me: authenticate((_, __, { user }) => {
+    me: (_, __, { user }) => {
       return user;
-    }),
+    },
     managers: authenticate((_, __, { models }) => {
       return models.Managers.findMany({});
     }),

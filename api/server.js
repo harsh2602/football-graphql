@@ -3,13 +3,17 @@ const typeDefs = require("./schema");
 const resolvers = require("./resolvers");
 const { models, db } = require("../db");
 const { createToken, getUserFromToken } = require("./auth");
-const { FormatDateDirective } = require("./directives");
+const {
+  FormatDateDirective,
+  AuthenticationDirective,
+} = require("./directives");
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
   schemaDirectives: {
     formatDate: FormatDateDirective,
+    authenticate: AuthenticationDirective,
   },
   context({ req, connection }) {
     const context = { models, db };
