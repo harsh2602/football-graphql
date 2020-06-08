@@ -1,4 +1,7 @@
-const { SchemaDirectiveVisitor } = require("apollo-server");
+const {
+  SchemaDirectiveVisitor,
+  AuthenticationError,
+} = require("apollo-server");
 const { defaultFieldResolver, GraphQLString } = require("graphql");
 const dateFormat = require("date-fns/format");
 
@@ -24,4 +27,17 @@ class FormatDateDirective extends SchemaDirectiveVisitor {
   }
 }
 
-module.exports = { FormatDateDirective };
+class AuthenticationDirective extends SchemaDirectiveVisitor {
+  visitFieldDefinition(field) {
+    const resolver = field.resolve || defaultFieldResolver;
+
+    field.resolve = async (root, args, context, info) => {
+      if (!context.user) {
+        throw new AuthenticationError("Not Authenticated");
+      }
+      return resolver(root, args, context, info);
+    };
+  }
+}
+
+module.exports = { FormatDateDirective, AuthenticationDirective };
