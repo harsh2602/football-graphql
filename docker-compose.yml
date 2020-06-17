@@ -1,0 +1,12 @@
+version: "3"
+services:
+  graphql-api:
+    build:
+      context: ./
+      dockerfile: dev.dockerfile
+    ports:
+      - "8080:8000"
+      - "1234:8000"
+    volumes:
+      - .:/home/node/src
+      - /home/node/src/node_modules
