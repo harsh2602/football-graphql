@@ -10,7 +10,7 @@ This is achieved by creating a strongly typed Schema for your API, ultimate flex
 - Get many resources in a single request
 - Describe what’s possible with a type system
 - Evolve your API without versions
-- Bring your own data and code
+- Bring your own data and code without limiting to specific storage engine
 
 It can be used both on the server side and the client side.
 
@@ -57,7 +57,7 @@ const typeDefs = gql`
   }
 `
 
-const resolver = {
+const resolvers = {
   Query: {
     me() {
       return {
@@ -80,7 +80,7 @@ server.listen(4000)
 
 If you have multiple typedefs in separate files, line (\*) can be an array of type defintions.
 
-As you can see, we defined a type `User`, added a `me` query that returns the a type User and set a resolver for the **_me_** query type to say what object it is going to return. This is just the bare minimum a server needs to be useful as a graphql server.
+As you can see, we defined a type `User`, added a `me` query that returns type User and set a resolver for the **_me_** query type to say what object it is going to return. This is just the bare minimum a server needs to be useful as a graphql server.
 
 In a nutshell:
 
@@ -90,36 +90,30 @@ Schema + Resolvers => Server
 
 #### Typedef
 
-Typedef is whatever type is defined in the schema. `User + Query` in above code.
+Typedef is whatever type is defined in the schema. `Type User + Type Query` in above code.
 
 #### Query
 
-Query is a special `type` on a schema that defines operations clients can perform to access data that resembles the shape of other types in the Schema.
+Query is a special `type` on a schema that defines operations clients can perform to access data that resembles the shape of the other types in the Schema.
 
 In the above code the query type having a `me` query which returns the shape of type User. You could similarly return scalars here.
 
 #### Resolvers
 
-Resolvers(more details below) are functions that are responsible for returning values for fields that exist on Types in Schema. It's execution depends on the incoming client query.
+Resolvers are functions that are responsible for returning values for fields that exist on Types in Schema. It's execution depends on the incoming client query.
 
 In the above code, we are resolving the `me` query which in turn returns the object as is expected by the query.
 
 - Resolver name has to match the name in the type (`me` in Query Type).
 - Resolver must return the value type declared for the matching field (me returns a type `User` in the Query)
 
-You could also write a resolver for each single field on a type as well. Unless asked, the resolvers won't even run for a particular field. This is actually the graph nature in graphql.
+You could also write a resolver for each single field on a type as well. Unless asked, the resolvers won't even run for a particular field.
 
 ##### Some important points to note:
 
 1. GraphQL only has one endpoint most of the time is `POST`(though you could do things over `GET` too).
 
 2. It does not respect HTTP. There is no error response. Hence every response is a status code 200 in graphql. You probably need to use the response message to decide whether the request was success or a failure response.
-
-3. Resolvers can be async, you can retrieve data from any source. Graphql won't care
-
-### Resolvers
-
-Resolvers were introduced eariler. Below content highlight's a bit more of the inner workings of resolvers.
 
 Q. As already mentioned, we can have field level resolvers as well in a type. How does graphql achieve that?
 
@@ -173,7 +167,7 @@ const server = new ApolloServer({
 //We will see an example later for 2 and 3
 ```
 
-4. `info`: This argument contains the `abstract syntax tree` info which can be used for projections. Really advanced. Not going to use them most times.
+4. `info`: This argument contains the `abstract syntax tree` info which can be used for projections. Really advanced. Quite useful in case of scenarios where you want to implement schema checking remotely.
 
 ### Arguments
 
@@ -216,7 +210,7 @@ type Pet {
 }
 ```
 
-The height and width arguments can be used to get an image speciific to the device on which the client wants to render. Another way to do that is with `directives`.
+The height and width arguments can be used to get an image specific to the device on which the client wants to render. Another way to do that is with `directives`.
 
 - They have to be `Scalars` or `InputTypes`.
 
@@ -268,14 +262,14 @@ On the client side:
 
 ## Mutations
 
-Just like Queries are used to read data from the server, you could use mutations to create or update data on the server. It is essentially used to perform the create, update and delete operations. Mutations can also accept arguments like queries.
+Just like Queries are used to read data from the server, you could use mutations to create or update data on the server. It is essentially used to perform create, update and delete operations. Mutations can also accept arguments like queries.
 
 Mutation (like Query) is also a special type in GraphQL Schema.
 
 ```
 input NewPetInput {
   name: String!
-  type: String!
+  breed: String!
 }
 
 type Mutation {
@@ -283,13 +277,13 @@ type Mutation {
 }
 ```
 
-Aove code means that create a new pet of type `Pet` by passing an input of type `NewPetInput` with non-null `name` and `type` fields.
+Above code means that add a pet of type `Pet` by passing an input of type `NewPetInput` with non-null `name` and `breed` fields which are of type String.
 
 A resolver would look like:
 
 ```
 Mutation: {
-    addPet(_, {input}, {models, user}) {
+    addPet(_, {input}) {
       // Create a Pet and return it
     }
   },
@@ -337,6 +331,126 @@ On the client side:
   id
   type
   name
+  }
+}
+```
+
+### Interface
+
+Interface is an abstract type that we can't use as field values but used as foundations for explicit Types. It is handy when you have Types that share common fields but will differ slightly.
+
+```
+interface Book {
+  title: String
+  author: Author
+}
+
+type TextBook implements Book {
+  title: String
+  author: Author
+  classes: [Class]
+}
+
+type ColoringBook implements Book {
+  title: String
+  author: Author
+  colors: [Color]
+}
+
+type Query {
+  schoolBooks: [Book]
+}
+
+const resolvers = {
+  Book: {
+    __resolveType(book) {  # __resolveType is needed to tell graphql how to resolve to exact type
+      if(book.classes) {
+        return 'Textbook'; # Can return the exact type as a string
+      }
+
+      if(book.colors){
+        return 'ColoringBook';
+      }
+
+      return null;
+    }
+  }
+}
+```
+
+##### NOTE: \_\_resolveType has 2 more arguments: context and info (same as described in resolvers)
+
+On the client side you need to query for the differing field using the special `... on` syntax:
+
+```
+schoolBooks {
+  __typename # this will return the exact types for the book instance: 'TextBook' and 'ColoringBook' here
+  title
+  ... on TextBook {
+    classes {
+      name
+    }
+  }
+  ... on ColoringBook {
+    colors {
+      name
+    }
+  }
+}
+```
+
+As you can see in the implementation, this is not for the sake of brevity but for not having repetitive queries.
+
+### Unions
+
+Unions are useful for returning disjoint data types from a single field. Union is like `type 1 or type 2 or type 3...`.
+
+```
+union Result = Book | Author
+
+type Book {
+  title: String
+}
+
+type Author {
+  name: String
+}
+
+type Query {
+  search: [Result]
+}
+
+const resolvers = {
+  Result: {
+    __resolveType(obj){
+      if(obj.name){
+        return 'Author';
+      }
+
+      if(obj.title){
+        return 'Book';
+      }
+
+      return null;
+    },
+  },
+  Query: {
+    search: () => { ... }
+  },
+};
+```
+
+Client Side Query:
+
+```
+{
+  search(contains: "") {
+    ... on Book {
+      title
+    }
+    ... on Author {
+      name
+    }
   }
 }
 ```
@@ -407,6 +521,71 @@ The client can issue a request like:
 }
 ```
 
-#### NOTE: This can go on for few more depths before we DDoS the server. And since graphql is just one request, a CDN cannot help in request caching. There are libraries which can help out in request limiting by restricting the depth you can go to fetch information. Design depends based on what works the individual application.
+#### NOTE: This can go on for few more depths before we DDoS the server. And since graphql is just one request, a CDN cannot help in request caching. There are ways which can help out in request limiting by restricting the depth you can go to fetch information. Also, since graphql by default is POST, standard HTTP caching for GET does not work. Apollo and many other implementations for graphql provides solutions to this problem.
 
 - Remember, field level resolvers run in parallel, so at no point depend on one resolver value to resolve another resolver.
+
+## Errors & Handling Errors
+
+Usually on a server, if you throw an error the server will break. But on a GraphQL any error that is thrown will be caught. If an error is thrown in a graphql server, the response code is still a 200 but this time instead of returning a data property, grapqhl will return an error property which is an array of errors.
+
+```
+// Suppose a resolver throws an error:
+
+error(user) {
+  throw new Error(`${user.email} is wrong`);
+}
+
+// On the client query
+
+query {
+  error
+}
+
+// Response to the client
+
+{
+  "errors": [ // An array containing all the errors
+    {
+      "message": "<message from the constructor>",
+      "locations": [
+        {
+          // consists of row and column in the query
+        }
+      ],
+      "path": [
+        // path to resolver that threw the error
+      ],
+      "extensions": {
+        "code": "INTERNAL_SERVER_ERROR", // Server Error Description
+        "exception": {
+          "stacktrace": [
+            // Detailed stacktrace: ApolloServer omits for prod or test mode
+          ]
+        }
+      }
+    }
+  ],
+  "data": null // or the lowest value resolved will be null
+}
+
+```
+
+Apollo Server comes with a bunch of predefined error like `AuthenticationError`, `ForbiddenError`, `UserInputError` and a generic `ApolloError`(basically an extension of javascript `Error` class).
+
+The errors array has an `extensions` object which provides details of what the error is. Note that this is not part of the spec but is something that Apollo Server comes built in.
+
+To disable stacktraces for production, pass debug: false to the Apollo Server constructor or set the NODE_ENV environment variable to 'production' or 'test'. Note that this will make the stacktrace unavailable to your application.
+
+#### Codes
+
+`code` field inside extensions object is a human readable string that client could use to decide on how to react on the error. For example, an `Authentication Error` sets the code to `UNAUTHENTICATED` which enables client to have the ability to re-authenticate and would be ignored as server anomaly.
+
+If you need to define custom errors specific to your application, use the `ApolloError` base class.
+
+```
+new ApolloError(message, code, additionalProperties)
+```
+
+Error Middleware: Apollo Server constructor provides an additional function `formatError` that is run on each error passed to the client.
+If you have to use an error logging service like Sentry or Splunk, this is the location where you will make that particular API call.
