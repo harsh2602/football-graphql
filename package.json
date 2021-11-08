@@ -9,7 +9,7 @@
   "author": "Harsh Khandelwal",
   "license": "ISC",
   "dependencies": {
-    "apollo-server": "^2.14.2",
+    "apollo-server": "^2.25.3",
     "date-fns": "^2.14.0",
     "graphql": "^15.0.0",
     "jsonwebtoken": "^8.5.1",
