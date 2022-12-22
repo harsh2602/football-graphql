@@ -12,7 +12,7 @@
     "apollo-server": "^2.14.2",
     "date-fns": "^2.14.0",
     "graphql": "^15.0.0",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "lowdb": "^1.0.0",
     "nanoid": "^2.1.1"
   },
